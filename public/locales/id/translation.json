@@ -1,0 +1,54 @@
+{
+    "welcome": "Selamat datang di aplikasi kami",
+    "login": {
+      "username": "Nama pengguna",
+      "password": "Kata sandi",
+      "submit": "Masuk"
+    },
+    "tasks": {
+      "createNewTask": "Buat tugas baru",
+      "finishTicketUpdate": "Selesaikan pembaruan tiket",
+      "createNewTicketExample": "Buat contoh tiket baru",
+      "updateTicketReport": "Perbarui laporan tiket"
+    },
+    "dataChart": {
+      "resolved": "Terselesaikan",
+      "received": "Diterima",
+      "averageFirstResponseTime": "Waktu respons pertama rata-rata",
+      "averageResponseTime": "Waktu respons rata-rata",
+      "resolutionWithinSLA": "Resolusi dalam SLA"
+    },
+    "unresolved": {
+      "waitingOnFeatureRequest": "Menunggu Permintaan Fitur",
+      "awaitingCustomerResponse": "Menunggu Respons Pelanggan",
+      "awaitingDeveloperFix": "Menunggu Perbaikan Pengembang",
+      "pending": "Tertunda"
+    },
+    "date": {
+      "today": "Hari ini",
+      "yesterday": "Kemarin",
+      "trends": "Tren Hari Ini"
+    },
+    "ticketDetail": {
+      "title": "Detail Tiket",
+      "customerName": "Nama Pelanggan",
+      "date": "Tanggal",
+      "priority": "Prioritas"
+    },
+    "common": {
+      "overview": "Ikhtisar",
+      "ticket": "Tiket",
+      "profile": "Profil",
+      "setting": "Pengaturan",
+      "language":"Bahasa",
+      "unresolved": "Belum Selesai",
+      "overdue": "Terlambat",
+      "open": "Buka",
+      "hold": "Tertahan",
+      "task": "Tugas",
+      "viewDetail": "Lihat rincian",
+      "viewAll": "Lihat semua",
+      "allTicket": "Semua Tiket"
+    }
+  }
+  

@@ -6,6 +6,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "./i18n"; // Import the i18n configuration
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));

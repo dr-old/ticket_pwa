@@ -2,6 +2,7 @@ import { useAuth } from "../context/useAuth";
 import { faBell, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { useTranslation } from "react-i18next";
 
 interface NavbarProps {
   title: string;
@@ -9,6 +10,7 @@ interface NavbarProps {
 
 export default function Navbar({ title }: NavbarProps) {
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
@@ -52,29 +54,25 @@ export default function Navbar({ title }: NavbarProps) {
             </div>
             <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white ring-1 ring-black ring-opacity-5 dark:bg-gray-800 dark:ring-gray-700 focus:outline-none transition-transform duration-100 ease-out">
               <MenuItem>
-                {({ active }) => (
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
-                    Your Profile
-                  </a>
-                )}
+                <a
+                  href="#"
+                  className="block px-4 py-2 my-1 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
+                  Your Profile
+                </a>
               </MenuItem>
               <MenuItem>
                 <a
                   href="#"
-                  className="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
+                  className="block px-4 py-2 my-1 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
                   Settings
                 </a>
               </MenuItem>
               <MenuItem>
-                {({ active }) => (
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
-                    Sign out
-                  </a>
-                )}
+                <a
+                  href="#"
+                  className="block px-4 py-2 my-1 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100">
+                  Sign out
+                </a>
               </MenuItem>
             </MenuItems>
           </Menu>
