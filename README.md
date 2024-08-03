@@ -44,11 +44,11 @@ Make sure you have the following installed:
 
 To start the project, run:
     ```sh
-    yarn install
+    yarn start
     ```
 Or if you are using npm:
     ```sh
-    npm install
+    npm start
     ```
 
 ### Login authentication
