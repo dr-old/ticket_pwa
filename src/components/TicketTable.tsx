@@ -22,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "./Dropdown";
 import Select from "./Select";
+import { useTranslation } from "react-i18next";
 
 interface Ticket {
   id: number;
@@ -214,6 +215,7 @@ const TicketTable: React.FC = () => {
   const [filterText, setFilterText] = useState("");
   const columnsMemo = useMemo(() => columns, []);
   const dataMemo = useMemo(() => data, []);
+  const { t } = useTranslation();
 
   const filteredData = useMemo(() => {
     if (!filterOption) return dataMemo;
@@ -270,7 +272,7 @@ const TicketTable: React.FC = () => {
       <div className="overflow-x-auto bg-white dark:bg-gray-900/50 shadow-md rounded-xl border border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between py-6 px-6">
           <h1 className="text-gray-900 dark:text-gray-100 lg:text-md font-medium">
-            All Tickets
+            {t("common.allTicket")}
           </h1>
           <div className="flex items-center space-x-4">
             <Dropdown

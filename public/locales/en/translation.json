@@ -1,0 +1,54 @@
+{
+    "welcome": "Welcome to our application",
+    "login": {
+      "username": "Username",
+      "password": "Password",
+      "submit": "Login"
+    },
+    "tasks": {
+      "createNewTask": "Create new task",
+      "finishTicketUpdate": "Finish ticket update",
+      "createNewTicketExample": "Create new ticket example",
+      "updateTicketReport": "Update ticket report"
+    },
+    "dataChart": {
+      "resolved": "Resolved",
+      "received": "Received",
+      "averageFirstResponseTime": "Average first response time",
+      "averageResponseTime": "Average response time",
+      "resolutionWithinSLA": "Resolution within SLA"
+    },
+    "unresolved": {
+      "waitingOnFeatureRequest": "Waiting on Feature Request",
+      "awaitingCustomerResponse": "Awaiting Customer Response",
+      "awaitingDeveloperFix": "Awaiting Developer Fix",
+      "pending": "Pending"
+    },
+    "date": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "trends": "Today's Trends"
+    },
+    "ticketDetail": {
+      "title": "Ticket Detail",
+      "customerName": "Customer Name",
+      "date": "Date",
+      "priority": "Priority"
+    },
+    "common": {
+      "overview": "Overview",
+      "ticket": "Tickets",
+      "profile": "Profile",
+      "setting": "Settings",
+      "language": "Language",
+      "unresolved": "Unresolved",
+      "overdue": "Overdue",
+      "open": "Open",
+      "hold": "On Hold",
+      "task": "Tasks",
+      "viewDetail": "View detail",
+      "viewAll": "View all",
+      "allTicket": "All Ticket"
+    }
+  }
+  

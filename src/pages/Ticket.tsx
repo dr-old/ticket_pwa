@@ -1,9 +1,12 @@
 import { Container } from "../components";
 import TicketTable from "../components/TicketTable";
+import { useTranslation } from "react-i18next";
 
 const Ticket = () => {
+  const { t } = useTranslation();
+
   return (
-    <Container title="Tickets">
+    <Container title={t("common.ticket")}>
       <div className="flex">
         <TicketTable />
       </div>

@@ -11,13 +11,7 @@ import {
   faTicket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/useAuth";
-
-const menu = [
-  { title: "Overview", link: "/dashboard", icon: faHome },
-  { title: "Tickets", link: "/ticket", icon: faTicket },
-  { title: "Profile", link: "/profile", icon: faUser },
-  { title: "Settings", link: "/settings", icon: faCog },
-];
+import { useTranslation } from "react-i18next";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -29,7 +23,15 @@ const Sidebar: React.FC<SidebarProps> = ({
   setIsSidebarOpen,
 }) => {
   const { logOut } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const menu = [
+    { title: t("common.overview"), link: "/dashboard", icon: faHome },
+    { title: t("common.ticket"), link: "/ticket", icon: faTicket },
+    { title: t("common.profile"), link: "#", icon: faUser },
+    { title: t("common.setting"), link: "/settings", icon: faCog },
+  ];
 
   const isSmallScreen = window.innerWidth < 768;
 
