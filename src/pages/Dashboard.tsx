@@ -9,10 +9,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const auth = useAuth();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isTask, setTask] = useState<any | null>(null);
 
   const data = [
@@ -43,7 +45,7 @@ const Dashboard = () => {
       value: faPlus,
       icon: true,
       color: "bg-gray-100 dark:bg-gray-700",
-      onClick: () => console.log(1),
+      onClick: () => navigate("/create-ticket"),
     },
     {
       title: t("tasks.finishTicketUpdate"),
@@ -69,7 +71,7 @@ const Dashboard = () => {
           {data.map((item: any, index: number) => (
             <div
               key={index.toString()}
-              className="bg-white dark:bg-gray-900/50 rounded-xl py-4 border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 flex justify-center items-center hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-600 dark:hover:border-blue-400 group">
+              className="bg-white dark:bg-gray-900/50 rounded-xl py-4 border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 flex justify-center items-center hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-600 dark:hover:border-blue-400 group shadow-md">
               <button
                 onClick={() => {}}
                 className="flex flex-col items-center justify-center p-4 gap-3 w-full">
@@ -83,7 +85,7 @@ const Dashboard = () => {
             </div>
           ))}
 
-          <div className="md:col-span-4 lg:col-span-4 flex flex-col lg:flex-row bg-white dark:bg-gray-900/50 rounded-xl border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 text-center">
+          <div className="md:col-span-4 lg:col-span-4 flex flex-col shadow-md lg:flex-row bg-white dark:bg-gray-900/50 rounded-xl border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 text-center">
             <div className="lg:w-9/12 p-4 md:p-4 lg:p-10">
               <div className="flex flex-col pb-4 lg:pb-8">
                 <div className="flex flex-row justify-between items-center">
@@ -132,7 +134,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="flex bg-white dark:bg-gray-900/50 flex-col justify-between md:col-span-2 rounded-xl border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 text-center">
+          <div className="flex shadow-md bg-white dark:bg-gray-900/50 flex-col justify-between md:col-span-2 rounded-xl border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 text-center">
             <div className="flex flex-col">
               <div className="flex flex-row px-4 lg:px-10 pt-4 lg:pt-8 justify-between items-center">
                 <span className="text-slate-950 dark:text-gray-200 sm:text-sm md:text-md font-semibold">
@@ -168,7 +170,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="flex bg-white dark:bg-gray-900/50 flex-col justify-between md:col-span-2 rounded-xl border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 text-center">
+          <div className="flex shadow-md bg-white dark:bg-gray-900/50 flex-col justify-between md:col-span-2 rounded-xl border-[1px] border-gray-200 dark:border-gray-700 text-slate-400 dark:text-gray-400 text-center">
             <div className="flex flex-col">
               <div className="flex flex-row px-4 lg:px-10 pt-4 lg:pt-8 justify-between items-center">
                 <span className="text-slate-950 dark:text-gray-200 text-sm md:text-md font-semibold">

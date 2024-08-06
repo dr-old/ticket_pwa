@@ -7,6 +7,7 @@ module.exports = {
     "./src/router/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/services/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
