@@ -29,6 +29,12 @@
       "yesterday": "Kemarin",
       "trends": "Tren Hari Ini"
     },
+    "ticket":{
+      "createNew":"Buat Tiket Baru",
+      "creating":"Membuat",
+      "create":"Buat Tiket",
+      "update":"Ubah Tiket"
+    },
     "ticketDetail": {
       "title": "Detail Tiket",
       "customerName": "Nama Pelanggan",
@@ -48,7 +54,14 @@
       "task": "Tugas",
       "viewDetail": "Lihat rincian",
       "viewAll": "Lihat semua",
-      "allTicket": "Semua Tiket"
+      "allTicket": "Semua Tiket",
+      "detail": "Detail",
+      "theme": "Mode Tema",
+      "light": "Terang",
+      "dark": "Gelap",
+      "system": "Sistem",
+      "selectLanguage":"Pilih bahasa yang digunakan",
+      "changeTheme":"Ubah tema untuk antarmuka pengguna layar"
     }
   }
   

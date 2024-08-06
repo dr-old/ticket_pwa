@@ -19,7 +19,7 @@ interface User {
 }
 
 interface AuthContextType {
-  token: string;
+  token: string | null;
   user: User | null;
   loginAction: (data: { email: string; password: string }) => Promise<void>;
   logOut: () => void;
@@ -34,8 +34,8 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string>(
-    localStorage.getItem("site") || ""
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("site") || null
   );
   const navigate = useNavigate();
 

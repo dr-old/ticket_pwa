@@ -1,51 +1,30 @@
-// api.ts
-import axios from "axios";
-
-const BASE_URL = "http://localhost:3012";
-
-const instance = axios.create({
-  baseURL: BASE_URL,
-});
-
-instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+import { instance } from "./api";
 
 interface Person {
   _id: string;
   fullname: string;
   birthday: string;
   email: string;
+  phone: string;
   password: string;
-  photo: string;
+  role: string;
   createdAt: string;
   updatedAt: string;
 }
 
 interface LoginResponse {
   token: string;
+  user: Person;
 }
 
-export const fetchPersons = async (): Promise<Person[]> => {
-  const response = await instance.get(`/persons`);
-  return response.data.data;
-};
-
-export const fetchPersonById = async (id: string): Promise<Person> => {
-  const response = await instance.get(`/person/${id}`);
-  return response.data.data;
-};
-
-export const createPerson = async (
-  newPerson: Omit<Person, "_id" | "createdAt" | "updatedAt">
-): Promise<Person> => {
-  const response = await instance.post(`/person`, newPerson);
-  return response.data.data;
-};
+interface SignUpResponse {
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}
 
 export const login = async (credentials: {
   email: string;
@@ -54,5 +33,20 @@ export const login = async (credentials: {
   console.log(credentials);
 
   const response = await instance.post(`/login`, credentials);
+  return response.data;
+};
+
+export const signUp = async (credentials: {
+  fullname: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}): Promise<SignUpResponse> => {
+  const data = {
+    fullname: credentials.fullname,
+    email: credentials.email,
+    password: credentials.password,
+  };
+  const response = await instance.post(`/register`, data);
   return response.data;
 };

@@ -1,7 +1,9 @@
 import Container from "./Container";
+import DarkModeToggle from "./DarkModeToggle";
 import Form from "./Form";
 import InputText from "./InputText";
 import InputTextArea from "./InputTextArea";
+import LanguageToggle from "./LanguageToggle";
 import Navbar from "./Navbar";
 import Select from "./Select";
 import Sidebar from "./Sidebar";
@@ -18,4 +20,6 @@ export {
   Container,
   SplineAreaChart,
   TicketTable,
+  DarkModeToggle,
+  LanguageToggle,
 };
