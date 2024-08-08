@@ -31,7 +31,7 @@
     },
     "ticket":{
       "createNew":"Create New Ticket",
-      "creating":"Creating",
+      "creating":"Creating Ticket",
       "create":"Create Ticket",
       "update":"Update Ticket"
     },

@@ -29,7 +29,7 @@ interface SignUpResponse {
 export const login = async (credentials: {
   email: string;
   password: string;
-}): Promise<LoginResponse> => {
+}) => {
   console.log(credentials);
 
   const response = await instance.post(`/login`, credentials);
@@ -41,12 +41,17 @@ export const signUp = async (credentials: {
   email: string;
   password: string;
   confirmPassword: string;
-}): Promise<SignUpResponse> => {
+}) => {
   const data = {
     fullname: credentials.fullname,
     email: credentials.email,
     password: credentials.password,
   };
   const response = await instance.post(`/register`, data);
+  return response.data;
+};
+
+export const getUsers = async () => {
+  const response = await instance.get(`/person`);
   return response.data;
 };

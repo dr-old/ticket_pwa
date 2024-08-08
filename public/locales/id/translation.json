@@ -31,7 +31,7 @@
     },
     "ticket":{
       "createNew":"Buat Tiket Baru",
-      "creating":"Membuat",
+      "creating":"Membuat Tiket",
       "create":"Buat Tiket",
       "update":"Ubah Tiket"
     },

@@ -1,80 +1,184 @@
 import React from "react";
-import InputText from "./InputText";
-import InputTextArea from "./InputTextArea";
+import { useForm, FormProvider } from "react-hook-form";
+import FormContainer from "./FormContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import Card from "./Card";
 
-const Form: React.FC = () => {
+interface FormProps {
+  title?: string;
+  footer?: any;
+  defaultValues: any;
+  children: React.ReactNode;
+  onSubmit: (data: any) => void;
+  card?: boolean;
+}
+
+export const Form: React.FC<FormProps> = ({
+  title,
+  footer,
+  defaultValues,
+  children,
+  onSubmit,
+  card,
+}) => {
+  const methods = useForm({ defaultValues });
+
+  if (card) {
+    return (
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <Card header={title} footer={footer}>
+            {Array.isArray(children)
+              ? children.map((child) => {
+                  return child.props.name
+                    ? React.createElement(child.type, {
+                        ...{
+                          ...child.props,
+                          register: methods.register,
+                          key: child.props.name,
+                          errors: methods.formState.errors,
+                        },
+                      })
+                    : child;
+                })
+              : children}
+          </Card>
+        </form>
+      </FormProvider>
+    );
+  }
+
   return (
-    <form>
-      <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Profile
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
-            This information will be displayed publicly so be careful what you
-            share.
-          </p>
-
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium leading-6 text-gray-900">
-                Username
-              </label>
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <InputText
-                    id="username"
-                    name="username"
-                    placeholder="janesmith"
-                    autoComplete="username"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-span-full">
-              <label
-                htmlFor="about"
-                className="block text-sm font-medium leading-6 text-gray-900">
-                About
-              </label>
-              <div className="mt-2">
-                <InputTextArea
-                  id="about"
-                  name="about"
-                  placeholder="Write a few sentences about yourself."
-                />
-              </div>
-              <p className="mt-3 text-sm leading-6 text-gray-600">
-                Write a few sentences about yourself.
-              </p>
-            </div>
-
-            {/* Additional fields go here */}
-          </div>
-        </div>
-
-        {/* Personal Information section */}
-
-        {/* Notifications section */}
-      </div>
-
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button
-          type="button"
-          className="text-sm font-semibold leading-6 text-gray-900">
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          Save
-        </button>
-      </div>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        {Array.isArray(children)
+          ? children.map((child) => {
+              return child.props.name
+                ? React.createElement(child.type, {
+                    ...{
+                      ...child.props,
+                      register: methods.register,
+                      key: child.props.name,
+                      errors: methods.formState.errors,
+                    },
+                  })
+                : child;
+            })
+          : children}
+      </form>
+    </FormProvider>
   );
 };
 
-export default Form;
+export const ErrorMessage = ({ message }: { message: any }) => {
+  return (
+    <p className="text-red-500 dark:text-red-400 text-xs mt-2">
+      <FontAwesomeIcon
+        icon={faExclamationTriangle}
+        className={`mr-3 w-4 h-4 `}
+      />
+      {message}
+    </p>
+  );
+};
+
+interface InputProps {
+  register?: any;
+  name: string;
+  rules?: any;
+  errors?: any;
+  [key: string]: any;
+}
+
+export const Input: React.FC<InputProps> = ({
+  register,
+  name,
+  placeholder,
+  rules,
+  errors,
+  ...rest
+}) => {
+  return (
+    <FormContainer name={name} labelLeft={name}>
+      <input
+        {...register(name, rules)}
+        {...rest}
+        placeholder={placeholder}
+        className={`block w-full text-xs rounded-lg py-3 px-3 md:py-2 md text-gray-900 dark:text-gray-100 bg-gray-100/40 dark:bg-gray-700/30 border-[1px] placeholder:text-gray-400 dark:placeholder-gray-500 focus:border-[1px] sm:text-xs sm:leading-6 ${
+          errors[name]
+            ? "border-red-500 dark:border-red-600"
+            : "border-gray-200 dark:border-gray-600 focus:border-indigo-600"
+        }`}
+      />
+      {errors[name] && <ErrorMessage message={errors[name].message} />}
+    </FormContainer>
+  );
+};
+
+interface SelectProps {
+  register?: any;
+  name: string;
+  placeholder?: string;
+  type?: number;
+  options: any;
+  rules?: any;
+  errors?: any;
+  [key: string]: any;
+}
+
+export const SelectOption: React.FC<SelectProps> = ({
+  register,
+  name,
+  type = 1,
+  options,
+  placeholder,
+  rules,
+  errors,
+  ...rest
+}) => {
+  return (
+    <FormContainer name={name} labelLeft={name}>
+      <select
+        {...register(name, rules)}
+        {...rest}
+        placeholder={placeholder}
+        className={`text-xs rounded-lg py-3 px-3 md:py-2 md text-gray-900 dark:text-gray-100 bg-gray-100/40 dark:bg-gray-700/30 border-[1px] placeholder:text-gray-400 dark:placeholder-gray-500 focus:border-[1px] sm:text-xs sm:leading-6 ${
+          errors[name]
+            ? "border-red-500 dark:border-red-600"
+            : "border-gray-200 dark:border-gray-600 focus:border-indigo-600"
+        }`}>
+        {type === 2
+          ? options.map((i: any) => (
+              <option key={i.value} value={i.value}>
+                {i.label}
+              </option>
+            ))
+          : options.map((value: any) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+      </select>
+      {errors[name] && <ErrorMessage message={errors[name].message} />}
+    </FormContainer>
+  );
+};
+
+interface ButtonProps {
+  disabled: boolean;
+  label: string;
+}
+
+export const Button = ({ disabled, label }: ButtonProps) => {
+  return (
+    <button
+      type="submit"
+      disabled={disabled}
+      className={`bg-blue-500 hover:bg-blue-600 font-medium text-white px-4 py-2 rounded-lg w-full md:max-w-44 shadow-md ${
+        disabled ? "opacity-50 cursor-not-allowed" : ""
+      }`}>
+      {label}
+    </button>
+  );
+};
