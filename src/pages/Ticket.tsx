@@ -1,5 +1,4 @@
-import { Container } from "../components";
-import TicketTable from "../components/TicketTable";
+import { Container, TicketTable } from "../components";
 import { useTranslation } from "react-i18next";
 
 const Ticket = () => {

@@ -1,28 +1,22 @@
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
-import { Container, InputText } from "../../components";
-import { createTicket } from "../../services/ticketService";
-import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/useAuth";
+import { Container } from "../../components";
+import { Button, Form, Input, SelectOption } from "../../components/Form";
+import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createTicket } from "../../services/ticketService";
+import { toast } from "react-hot-toast";
+import { getUsers } from "../../services/userService";
 
-interface FormValues {
-  title: string;
-  description: string;
-  assignedTo: string;
-  createdBy: string;
-}
-
-const CreateTicket: React.FC = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+const MyForm: React.FC = () => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+
+  const { data, error, isLoading } = useQuery<any | undefined, Error>({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
 
   const mutation = useMutation({
     mutationFn: createTicket,
@@ -40,100 +34,51 @@ const CreateTicket: React.FC = () => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: any) => {
     mutation.mutate(data);
   };
 
+  const ASSIGNED_DATA = useMemo(
+    () =>
+      data?.data
+        ? data?.data?.map((item: any) => ({
+            value: item._id,
+            label: item.fullname,
+          }))
+        : [],
+    [data?.data]
+  );
+
   return (
-    <Container title={t("ticket.create")}>
-      <div className="flex font-poppins">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="bg-white shadow-md dark:bg-gray-900 p-8 rounded-xl w-full max-w-md text-gray-600 dark:text-gray-400">
-          <h1 className="text-xl mb-5 font-semibold text-center text-gray-900 dark:text-gray-100">
-            {t("ticket.createNew")}
-          </h1>
-          <div className="mb-4">
-            <Controller
-              name="title"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Title is required" }}
-              render={({ field }) => (
-                <InputText
-                  {...field}
-                  id="title"
-                  placeholder="Ticket Title"
-                  labelLeft="Title"
-                  error={errors.title?.message}
-                />
-              )}
-            />
-          </div>
-          <div className="mb-4">
-            <Controller
-              name="description"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Description is required" }}
-              render={({ field }) => (
-                <InputText
-                  {...field}
-                  type="textarea"
-                  id="description"
-                  placeholder="Ticket description"
-                  labelLeft="description"
-                  error={errors.description?.message}
-                />
-              )}
-            />
-          </div>
-          <div className="mb-4">
-            <Controller
-              name="assignedTo"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Assigned is required" }}
-              render={({ field }) => (
-                <InputText
-                  {...field}
-                  id="assignedTo"
-                  placeholder="Select assigned"
-                  labelLeft="Assigned To"
-                  error={errors.assignedTo?.message}
-                />
-              )}
-            />
-          </div>
-          <div className="mb-4 hidden">
-            <Controller
-              name="createdBy"
-              control={control}
-              defaultValue={user?._id}
-              rules={{ required: "Created by is required" }}
-              render={({ field }) => (
-                <InputText
-                  {...field}
-                  id="createdBy"
-                  placeholder="created By"
-                  labelLeft="Created By"
-                  error={errors.createdBy?.message}
-                />
-              )}
-            />
-          </div>
-          <button
-            type="submit"
+    <Container title={t("ticket.create")} loading={isLoading}>
+      <Form
+        title={t("ticket.createNew")}
+        defaultValues={{ title: "", assignedTo: "" }}
+        onSubmit={onSubmit}
+        card={true}
+        footer={
+          <Button
             disabled={isSubmitting}
-            className={`bg-blue-500 hover:bg-blue-600 mt-7 font-medium text-white px-4 py-2 rounded-lg w-full shadow-md ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-            }`}>
-            {isSubmitting ? `${t("ticket.creating")}...` : t("ticket.create")}
-          </button>
-        </form>
-      </div>
+            label={
+              isSubmitting ? `${t("ticket.creating")}...` : t("ticket.create")
+            }
+          />
+        }>
+        <Input
+          name="title"
+          placeholder="Your ticket title"
+          rules={{ required: "This field is required" }}
+        />
+        <SelectOption
+          name="assignedTo"
+          placeholder="Your ticket title"
+          type={2}
+          options={ASSIGNED_DATA}
+          rules={{ required: "Please select an option" }}
+        />
+      </Form>
     </Container>
   );
 };
 
-export default CreateTicket;
+export default MyForm;

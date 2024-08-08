@@ -1,4 +1,6 @@
+import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
+import { RegisterOptions, useFormContext } from "react-hook-form";
 
 interface InputTextProps {
   id: string;
@@ -13,6 +15,7 @@ interface InputTextProps {
   labelLeft?: string; // Label on the left side
   labelRight?: string; // Label on the right side
   error?: any; // Error message
+  rules?: RegisterOptions;
 }
 
 // Use forwardRef to handle refs properly
@@ -31,9 +34,14 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
       labelLeft,
       labelRight,
       error,
+      rules,
     },
     ref
   ) => {
+    const {
+      register,
+      formState: { errors },
+    } = useFormContext();
     return (
       <div className="flex flex-col">
         <div className="flex flex-row items-center justify-between">
@@ -53,32 +61,34 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
           )}
         </div>
         <div className="flex-1">
-          <div className="relative flex items-center rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+          <div className="relative flex items-center rounded-lg ">
             {type === "textarea" ? (
               <textarea
                 id={id}
-                name={name}
+                {...register(name, rules)}
                 rows={rows}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
                 // ref={ref} // Forward ref here
-                className={`block w-full text-xs rounded-lg py-3 px-3 md:py-2 md text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 shadow-sm border-[1px] border-gray-200 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder-gray-500 focus:border-[1px] focus:border-inset focus:border-indigo-600 sm:text-xs sm:leading-6 ${
+                className={`block w-full text-xs rounded-lg py-3 px-3 md:py-2  text-gray-900 dark:text-gray-100 bg-gray-100/40 dark:bg-gray-700/30 border-[1px] border-gray-200 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder-gray-500 focus:border-[1px]  focus:border-indigo-600 sm:text-xs sm:leading-6 ${
                   error ? "border-red-500 dark:border-red-600" : ""
                 }`}
               />
             ) : (
               <input
                 id={id}
-                name={name}
+                {...register(name, rules)}
                 type={type}
                 placeholder={placeholder}
                 autoComplete={autoComplete}
                 value={value}
                 onChange={onChange}
                 ref={ref} // Forward ref here
-                className={`block w-full text-xs rounded-lg py-3 px-3 md:py-2 md text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 shadow-sm border-[1px] border-gray-200 dark:border-gray-600 placeholder:text-gray-400 dark:placeholder-gray-500 focus:border-[1px] focus:border-inset focus:border-indigo-600 sm:text-xs sm:leading-6 ${
-                  error ? "border-red-500 dark:border-red-600" : ""
+                className={`block w-full text-xs rounded-lg py-3 px-3 md:py-2 md text-gray-900 dark:text-gray-100 bg-gray-100/40 dark:bg-gray-700/30 border-[1px] placeholder:text-gray-400 dark:placeholder-gray-500 focus:border-[1px] sm:text-xs sm:leading-6 ${
+                  error
+                    ? "border-red-500 dark:border-red-600"
+                    : "border-gray-200 dark:border-gray-600 focus:border-indigo-600"
                 }`}
               />
             )}
@@ -89,9 +99,22 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
             )}
           </div>
           {error && (
-            <p className="text-red-500 dark:text-red-400 text-xs mt-1">
-              {error}
-            </p>
+            <ErrorMessage
+              errors={errors}
+              name={name}
+              render={({ messages }) => {
+                console.log("messages", messages);
+                return messages
+                  ? Object.entries(messages).map(([type, message]) => (
+                      <p
+                        key={type}
+                        className="text-red-500 dark:text-red-400 text-xs mt-1">
+                        {message}
+                      </p>
+                    ))
+                  : null;
+              }}
+            />
           )}
         </div>
       </div>
