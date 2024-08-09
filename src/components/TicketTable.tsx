@@ -1,46 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
-import { filterTicket, priorityColor, sortLabel } from "../utils/constant";
-import ActionMenu from "./ActionMenu";
+import { filterTicket, sortLabel } from "../utils/constant";
 import Table, { TicketProps } from "./Table";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteTicket, getTickets } from "../services/ticketService";
-import { toast } from "react-hot-toast";
+import ActionMenu from "./ActionMenu";
 
-const TicketTable: React.FC = () => {
+interface TicketTableProps {
+  data: any;
+  onDelete: (id: string) => void;
+}
+
+const priorityColor = {
+  high: "bg-red-500",
+  low: "bg-yellow-500",
+  normal: "bg-green-500",
+};
+
+const TicketTable: React.FC<TicketTableProps> = ({ data, onDelete }) => {
   const { t } = useTranslation();
-  const client = useQueryClient();
-
-  const { data, error, isLoading } = useQuery<any | undefined, Error>({
-    queryKey: ["tickets"],
-    queryFn: getTickets,
-  });
-
-  const mutation = useMutation({
-    mutationFn: (id: string) => deleteTicket(id),
-    onSuccess: (data: any) => {
-      console.log("onSuccess", data);
-      toast.success(data.message);
-      client.invalidateQueries({ queryKey: ["tickets"] });
-    },
-    onError: (error: any) => {
-      toast.error("Error creating ticket: " + error.message);
-    },
-  });
-
-  const handleDelete = (id: string) => {
-    mutation.mutate(id);
-  };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  const [selectedRow, setSelectedRow] = useState<any | null>(null);
 
   const columns: ColumnDef<TicketProps>[] = [
     {
       accessorKey: "title",
       header: "Ticket Detail",
+      enableSorting: false,
       cell: (info: any) => {
         return (
           <div className="flex flex-row items-center">
@@ -67,6 +52,7 @@ const TicketTable: React.FC = () => {
     {
       accessorKey: "customerName",
       header: "Customer Name",
+      enableSorting: false,
       cell: (info: any) => (
         <div className="flex flex-col">
           <span className="font-medium text-xs capitalize text-gray-600 dark:text-gray-200">
@@ -84,6 +70,7 @@ const TicketTable: React.FC = () => {
     {
       accessorKey: "createdAt",
       header: "Date",
+      enableSorting: false,
       cell: (info: any) => (
         <div className="flex flex-col">
           <span className="font-medium text-xs capitalize text-gray-600 dark:text-gray-200">
@@ -98,19 +85,30 @@ const TicketTable: React.FC = () => {
     {
       accessorKey: "priority",
       header: "Priority",
-      cell: (info: any) => (
-        <span
-          className={`font-medium text-[10px] px-3 py-1 rounded-xl uppercase text-white ${
-            priorityColor[info.getValue() as keyof typeof priorityColor]
-          }`}>
-          {info.getValue()}
-        </span>
-      ),
+      enableSorting: false,
+      cell: (info: any) => {
+        console.log(
+          priorityColor[
+            info.row.original.priority as keyof typeof priorityColor
+          ]
+        );
+
+        return (
+          <span
+            className={`font-medium text-[10px] px-3 py-1 rounded-xl uppercase text-white ${
+              priorityColor[
+                info.row.original.priority as keyof typeof priorityColor
+              ]
+            }`}>
+            {info.row.original.priority}
+          </span>
+        );
+      },
     },
     {
       header: " ",
-      cell: ({ row }) => <ActionMenu row={row} onDelete={handleDelete} />,
-      enableSorting: false, // Disable sorting for the "Action" column
+      cell: ({ row }) => <ActionMenu row={row} onDelete={onDelete} />,
+      enableSorting: false,
     },
   ];
 
@@ -121,6 +119,7 @@ const TicketTable: React.FC = () => {
       title={t("common.allTicket")}
       sortLabel={sortLabel}
       sortValue={filterTicket}
+      selectedRow={selectedRow}
     />
   );
 };

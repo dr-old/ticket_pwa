@@ -13,7 +13,7 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-import Ticket from "./pages/Ticket";
+import Ticket from "./pages/ticket/Ticket";
 import Register from "./pages/Register";
 import CreateTicket from "./pages/ticket/CreateTicket";
 
