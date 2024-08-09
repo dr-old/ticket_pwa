@@ -3,7 +3,9 @@ import React from "react";
 interface FormContainerProps {
   name: string;
   iconSuffix?: React.ReactNode;
+  iconPrefix?: React.ReactNode;
   children: React.ReactNode;
+  error?: React.ReactNode;
   labelLeft?: string;
   labelRight?: string;
 }
@@ -11,9 +13,11 @@ interface FormContainerProps {
 const FormContainer: React.FC<FormContainerProps> = ({
   name,
   iconSuffix,
+  iconPrefix,
   labelLeft,
   labelRight,
   children,
+  error,
 }) => {
   return (
     <div className="flex flex-col mb-4">
@@ -34,14 +38,12 @@ const FormContainer: React.FC<FormContainerProps> = ({
         )}
       </div>
       <div className="flex-1">
-        <div className="relative flex flex-col rounded-lg ">
+        <div className={`relative flex items-center`}>
+          {iconPrefix}
           {children}
-          {iconSuffix && (
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              {iconSuffix}
-            </span>
-          )}
+          {iconSuffix}
         </div>
+        {error}
       </div>
     </div>
   );

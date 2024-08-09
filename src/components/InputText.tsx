@@ -1,6 +1,4 @@
-import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
-import { RegisterOptions, useFormContext } from "react-hook-form";
 
 interface InputTextProps {
   id: string;
@@ -15,7 +13,6 @@ interface InputTextProps {
   labelLeft?: string; // Label on the left side
   labelRight?: string; // Label on the right side
   error?: any; // Error message
-  rules?: RegisterOptions;
 }
 
 // Use forwardRef to handle refs properly
@@ -34,14 +31,9 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
       labelLeft,
       labelRight,
       error,
-      rules,
     },
     ref
   ) => {
-    const {
-      register,
-      formState: { errors },
-    } = useFormContext();
     return (
       <div className="flex flex-col">
         <div className="flex flex-row items-center justify-between">
@@ -65,7 +57,6 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
             {type === "textarea" ? (
               <textarea
                 id={id}
-                {...register(name, rules)}
                 rows={rows}
                 placeholder={placeholder}
                 value={value}
@@ -78,7 +69,6 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
             ) : (
               <input
                 id={id}
-                {...register(name, rules)}
                 type={type}
                 placeholder={placeholder}
                 autoComplete={autoComplete}
@@ -98,24 +88,6 @@ const InputText = React.forwardRef<HTMLInputElement, InputTextProps>(
               </span>
             )}
           </div>
-          {error && (
-            <ErrorMessage
-              errors={errors}
-              name={name}
-              render={({ messages }) => {
-                console.log("messages", messages);
-                return messages
-                  ? Object.entries(messages).map(([type, message]) => (
-                      <p
-                        key={type}
-                        className="text-red-500 dark:text-red-400 text-xs mt-1">
-                        {message}
-                      </p>
-                    ))
-                  : null;
-              }}
-            />
-          )}
         </div>
       </div>
     );
