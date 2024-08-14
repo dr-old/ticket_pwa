@@ -15,6 +15,8 @@ import FormContainer from "./FormContainer";
 import InputText from "./InputText";
 import InputTextArea from "./InputTextArea";
 import LanguageToggle from "./LanguageToggle";
+import ModalAlert from "./ModalAlert";
+import ModalFormTicket from "./ModalFormTicket";
 import Navbar from "./Navbar";
 import { NestedInputContainer } from "./NestedInput";
 import Select from "./Select";
@@ -46,4 +48,6 @@ export {
   Checkbox,
   Textarea,
   Button,
+  ModalAlert,
+  ModalFormTicket,
 };

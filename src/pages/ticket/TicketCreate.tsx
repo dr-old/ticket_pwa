@@ -17,7 +17,7 @@ import { getUsers } from "../../services/userService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const MyForm: React.FC = () => {
+const TicketCreate: React.FC = () => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
@@ -113,4 +113,4 @@ const MyForm: React.FC = () => {
   );
 };
 
-export default MyForm;
+export default TicketCreate;

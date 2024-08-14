@@ -33,7 +33,8 @@
       "createNew":"Buat Tiket Baru",
       "creating":"Membuat Tiket",
       "create":"Buat Tiket",
-      "update":"Ubah Tiket"
+      "update":"Ubah Tiket",
+      "updating":"Mengubah Tiket"
     },
     "ticketDetail": {
       "title": "Detail Tiket",
@@ -61,7 +62,11 @@
       "dark": "Gelap",
       "system": "Sistem",
       "selectLanguage":"Pilih bahasa yang digunakan",
-      "changeTheme":"Ubah tema untuk antarmuka pengguna layar"
+      "changeTheme":"Ubah tema untuk antarmuka pengguna layar",
+      "create": "Buat",
+      "update": "Ubah",
+      "delete": "Hapus",
+      "cancel":"Batal"
     }
   }
   
