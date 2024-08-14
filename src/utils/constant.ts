@@ -13,3 +13,9 @@ export const sortLabel = [
   { title: "Ascending", value: "asc" },
   { title: "Descending", value: "desc" },
 ];
+
+export const priorityTicket = [
+  { value: "low", label: "Low" },
+  { value: "normal", label: "Normal" },
+  { value: "high", label: "High" },
+];

@@ -15,6 +15,7 @@ interface ModalProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   title: string;
   message: string;
+  labelConfirm?: string;
   onConfirm: () => void;
   onCancel?: () => void;
 }
@@ -25,6 +26,7 @@ const ModalAlert: React.FC<ModalProps> = ({
   title,
   message,
   onConfirm,
+  labelConfirm,
   onCancel,
 }) => {
   const handleConfirm = () => {
@@ -43,10 +45,10 @@ const ModalAlert: React.FC<ModalProps> = ({
       />
 
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div className="flex md:min-h-full items-end justify-center text-center md:items-center p-4">
           <DialogPanel
             transition
-            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95">
+            className="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in dark:bg-gray-800 w-full sm:w-full sm:max-w-lg sm:my-8 sm:rounded-lg top-0 sm:top-auto sm:relative">
             <div className="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
               <div className="sm:flex sm:items-start">
                 <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-200 sm:mx-0 sm:h-10 sm:w-10">
@@ -74,7 +76,7 @@ const ModalAlert: React.FC<ModalProps> = ({
                 type="button"
                 onClick={handleConfirm}
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto dark:bg-red-700 dark:hover:bg-red-600">
-                Log Out
+                {labelConfirm || "Log Out"}
               </button>
               <button
                 type="button"

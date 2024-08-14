@@ -26,32 +26,56 @@ interface SignUpResponse {
   };
 }
 
+// Login
 export const login = async (credentials: {
   email: string;
   password: string;
-}) => {
-  console.log(credentials);
-
-  const response = await instance.post(`/login`, credentials);
-  return response.data;
+}): Promise<LoginResponse> => {
+  try {
+    const response = await instance.post(`/login`, credentials);
+    return response.data;
+  } catch (error: any) {
+    console.error("Failed to login:", error);
+    throw new Error(
+      error.response?.data?.error || "An error occurred while trying to login."
+    );
+  }
 };
 
+// Sign Up
 export const signUp = async (credentials: {
   fullname: string;
   email: string;
   password: string;
   confirmPassword: string;
-}) => {
-  const data = {
-    fullname: credentials.fullname,
-    email: credentials.email,
-    password: credentials.password,
-  };
-  const response = await instance.post(`/register`, data);
-  return response.data;
+}): Promise<SignUpResponse> => {
+  try {
+    const data = {
+      fullname: credentials.fullname,
+      email: credentials.email,
+      password: credentials.password,
+    };
+    const response = await instance.post(`/register`, data);
+    return response.data;
+  } catch (error: any) {
+    console.error("Failed to sign up:", error);
+    throw new Error(
+      error.response?.data?.error ||
+        "An error occurred while trying to sign up."
+    );
+  }
 };
 
-export const getUsers = async () => {
-  const response = await instance.get(`/person`);
-  return response.data;
+// Get Users
+export const getUsers = async (): Promise<Person[]> => {
+  try {
+    const response = await instance.get(`/person`);
+    return response.data;
+  } catch (error: any) {
+    console.error("Failed to fetch users:", error);
+    throw new Error(
+      error.response?.data?.error ||
+        "An error occurred while trying to fetch users."
+    );
+  }
 };

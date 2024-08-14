@@ -15,7 +15,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Ticket from "./pages/ticket/Ticket";
 import Register from "./pages/Register";
-import CreateTicket from "./pages/ticket/CreateTicket";
+import TicketCreate from "./pages/ticket/TicketCreate";
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/ticket" element={<Ticket />} />
-                <Route path="/create-ticket" element={<CreateTicket />} />
+                <Route path="/create-ticket" element={<TicketCreate />} />
                 {/* Add more routes as needed */}
               </Route>
             </Route>

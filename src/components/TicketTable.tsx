@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { filterTicket, sortLabel } from "../utils/constant";
 import Table, { TicketProps } from "./Table";
 import ActionMenu from "./ActionMenu";
+import ModalAlert from "./ModalAlert";
+import ModalUpdateTicket from "./ModalFormTicket";
 
 interface TicketTableProps {
   data: any;
@@ -20,6 +22,18 @@ const priorityColor = {
 const TicketTable: React.FC<TicketTableProps> = ({ data, onDelete }) => {
   const { t } = useTranslation();
   const [selectedRow, setSelectedRow] = useState<any | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalSelect, setIsModalSelect] = useState(false);
+
+  const handleDelete = (data: any) => {
+    setSelectedRow(data);
+    setIsModalOpen(true);
+  };
+
+  const handleEdit = (ticket: any) => {
+    setSelectedRow(ticket);
+    setIsModalSelect(true);
+  };
 
   const columns: ColumnDef<TicketProps>[] = [
     {
@@ -107,20 +121,40 @@ const TicketTable: React.FC<TicketTableProps> = ({ data, onDelete }) => {
     },
     {
       header: " ",
-      cell: ({ row }) => <ActionMenu row={row} onDelete={onDelete} />,
+      cell: ({ row }) => (
+        <ActionMenu row={row} onDelete={handleDelete} onEdit={handleEdit} />
+      ),
       enableSorting: false,
     },
   ];
 
   return (
-    <Table
-      data={data}
-      columns={columns}
-      title={t("common.allTicket")}
-      sortLabel={sortLabel}
-      sortValue={filterTicket}
-      selectedRow={selectedRow}
-    />
+    <div className="flex-1">
+      <Table
+        data={data}
+        columns={columns}
+        title={t("common.allTicket")}
+        sortLabel={sortLabel}
+        sortValue={filterTicket}
+      />
+      {isModalOpen && (
+        <ModalAlert
+          isOpen={isModalOpen}
+          setOpen={setIsModalOpen}
+          title="Confirm Deletion"
+          message="Are you sure you want to delete this ticket? This action cannot be undone."
+          labelConfirm="Delete"
+          onConfirm={() => onDelete(selectedRow._id)}
+        />
+      )}
+      {isModalSelect && (
+        <ModalUpdateTicket
+          isOpen={isModalSelect}
+          setOpen={setIsModalSelect}
+          ticketData={selectedRow}
+        />
+      )}
+    </div>
   );
 };
 

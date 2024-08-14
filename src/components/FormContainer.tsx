@@ -8,6 +8,7 @@ interface FormContainerProps {
   error?: React.ReactNode;
   labelLeft?: string;
   labelRight?: string;
+  className?: string;
 }
 
 const FormContainer: React.FC<FormContainerProps> = ({
@@ -18,9 +19,10 @@ const FormContainer: React.FC<FormContainerProps> = ({
   labelRight,
   children,
   error,
+  className,
 }) => {
   return (
-    <div className="flex flex-col mb-4">
+    <div className={`flex flex-col mb-4 ${className}`}>
       <div className="flex flex-row items-center justify-between">
         {labelLeft && (
           <label

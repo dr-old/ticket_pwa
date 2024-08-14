@@ -12,6 +12,7 @@ interface FormProps {
   children: React.ReactNode;
   onSubmit: (data: any) => void;
   card?: boolean;
+  className?: string;
 }
 
 export const Form: React.FC<FormProps> = ({
@@ -21,6 +22,7 @@ export const Form: React.FC<FormProps> = ({
   children,
   onSubmit,
   card,
+  className,
 }) => {
   const methods = useForm({ defaultValues });
 
@@ -32,7 +34,9 @@ export const Form: React.FC<FormProps> = ({
   if (card) {
     return (
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleSubmit)}>
+        <form
+          onSubmit={methods.handleSubmit(handleSubmit)}
+          className={className}>
           <Card header={title} footer={footer}>
             {Array.isArray(children)
               ? children.map((child) => {
@@ -56,7 +60,7 @@ export const Form: React.FC<FormProps> = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form onSubmit={methods.handleSubmit(onSubmit)} className={className}>
         {Array.isArray(children)
           ? children.map((child) => {
               return child.props.name
@@ -95,6 +99,7 @@ interface InputProps {
   iconPrefix?: ReactNode;
   rules?: any;
   errors?: any;
+  className?: string;
   [key: string]: any;
 }
 
@@ -106,6 +111,7 @@ export const Input: React.FC<InputProps> = ({
   iconPrefix,
   rules,
   errors,
+  className,
   ...rest
 }) => {
   return (
@@ -113,6 +119,7 @@ export const Input: React.FC<InputProps> = ({
       name={name}
       labelLeft={name}
       error={errors[name] && <ErrorMessage message={errors[name].message} />}
+      className={className}
       iconPrefix={iconPrefix}
       iconSuffix={iconSuffix}>
       <input
@@ -136,6 +143,7 @@ interface TextareaProps {
   iconPrefix?: ReactNode;
   rules?: any;
   errors?: any;
+  className?: string;
   [key: string]: any;
 }
 
@@ -147,6 +155,7 @@ export const Textarea: React.FC<TextareaProps> = ({
   iconPrefix,
   rules,
   errors,
+  className,
   ...rest
 }) => {
   return (
@@ -154,6 +163,7 @@ export const Textarea: React.FC<TextareaProps> = ({
       name={name}
       labelLeft={name}
       error={errors[name] && <ErrorMessage message={errors[name].message} />}
+      className={className}
       iconPrefix={iconPrefix}
       iconSuffix={iconSuffix}>
       <textarea
@@ -181,6 +191,7 @@ interface SelectProps {
   iconPrefix?: ReactNode;
   rules?: any;
   errors?: any;
+  className?: string;
   [key: string]: any;
 }
 
@@ -194,6 +205,7 @@ export const SelectOption: React.FC<SelectProps> = ({
   iconPrefix,
   rules,
   errors,
+  className,
   ...rest
 }) => {
   return (
@@ -201,6 +213,7 @@ export const SelectOption: React.FC<SelectProps> = ({
       name={name}
       labelLeft={name}
       error={errors[name] && <ErrorMessage message={errors[name].message} />}
+      className={className}
       iconPrefix={iconPrefix}
       iconSuffix={iconSuffix}>
       <select
@@ -237,6 +250,7 @@ interface RadioProps {
   options: { value: string; label: string }[];
   rules?: any;
   errors?: any;
+  className?: string;
   [key: string]: any;
 }
 
@@ -246,14 +260,16 @@ export const Radio: React.FC<RadioProps> = ({
   options,
   rules,
   errors,
+  className,
   ...rest
 }) => {
   return (
     <FormContainer
       name={name}
       labelLeft={name}
+      className={className}
       error={errors[name] && <ErrorMessage message={errors[name].message} />}>
-      <div className="flex flex-col space-y-2">
+      <div className={`flex flex-col space-y-2`}>
         {options.map((option) => (
           <label key={option.value} className="flex items-center space-x-2">
             <input
@@ -283,6 +299,7 @@ interface CheckboxProps {
   label: string;
   rules?: any;
   errors?: any;
+  className?: string;
   [key: string]: any;
 }
 
@@ -292,12 +309,14 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   label,
   rules,
   errors,
+  className,
   ...rest
 }) => {
   return (
     <FormContainer
       name={name}
       labelLeft={name}
+      className={className}
       error={errors[name] && <ErrorMessage message={errors[name].message} />}>
       <label className="flex items-center space-x-2">
         <input
@@ -319,18 +338,58 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 };
 
 interface ButtonProps {
-  disabled: boolean;
+  disabled?: boolean;
   label: string;
+  type?: string;
+  mode?: string;
+  className?: string;
+  onClick?: () => void;
+  preffix?: any;
+  suffix?: any;
+  [key: string]: any;
 }
 
-export const Button = ({ disabled, label }: ButtonProps) => {
+export const Button = ({
+  mode,
+  type,
+  disabled,
+  label,
+  onClick,
+  className,
+  preffix,
+  suffix,
+  ...rest
+}: ButtonProps) => {
+  let clr =
+    "bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-600 dark:text-gray-200 dark:ring-gray-500 dark:hover:bg-gray-500";
+  if (mode === "danger") clr = "bg-red-600 hover:bg-red-500 text-white";
+  if (mode === "success") clr = "bg-green-600 hover:bg-green-500 text-white";
+  if (mode === "primary") clr = "bg-blue-600 hover:bg-blue-500 text-white";
+
+  if (type === "button") {
+    return (
+      <button
+        {...rest}
+        onClick={onClick}
+        disabled={disabled}
+        className={`inline-flex w-full justify-center ${clr} rounded-md  px-3 py-2 text-sm font-semibold shadow-sm sm:w-auto ${
+          disabled ? "opacity-50 cursor-not-allowed" : ""
+        } ${className}`}>
+        {preffix}
+        {label}
+        {suffix}
+      </button>
+    );
+  }
+
   return (
     <button
+      {...rest}
       type="submit"
       disabled={disabled}
-      className={`bg-blue-500 hover:bg-blue-600 font-medium text-white px-4 py-2 rounded-lg w-full md:max-w-44 shadow-md ${
+      className={`inline-flex w-full justify-center ${clr} rounded-md  px-3 py-2 text-sm font-semibold shadow-sm sm:w-auto ${
         disabled ? "opacity-50 cursor-not-allowed" : ""
-      }`}>
+      } ${className}`}>
       {label}
     </button>
   );
